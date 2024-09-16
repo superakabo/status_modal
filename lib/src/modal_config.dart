@@ -17,15 +17,35 @@ class ModalConfig {
   /// handle, if showDragHandle is true. Defaults is true.
   final bool enableDrag;
 
+  /// The [isScrollControlled] parameter specifies whether this is a
+  /// route for a bottom sheet that will utilize [DraggableScrollableSheet].
+  /// Consider setting this parameter to true if this bottom sheet has
+  /// a scrollable child, such as a [ListView] or a [GridView], to make
+  /// the bottom sheet draggable. Setting this to true will also make
+  /// the modal assume the full height of the viewport (full screen).
   final bool isScrollControlled;
-  final Duration animationDuration;
+
+  /// The [sizeAnimationDuration] parameter specifies the duration to use
+  /// when transitioning this widget's size to match the child's size.
+  final Duration sizeAnimationDuration;
+
+  /// The [backgroundColor] parameter specifies the modal's
+  /// background color. Defaults to null and falls back to [Material]'s default.
   final Color? backgroundColor;
+
+  /// The [elevation] parameter specifies the color of the shadow below the
+  /// dialog or bottom sheet. If this property is null, the default value
+  /// for [DialogTheme.elevation] or [BottomSheetThemeData.shadowColor] is used.
+  /// If that is also null, the default value is transparent.
   final double? elevation;
 
   /// The [shape] parameter defines the shape of the modal.
   /// If this property is not provided, it falls back to [Material]'s default.
   final ShapeBorder? shape;
 
+  /// The [clipBehavior] parameter specifies how the content will be clipped (or not)
+  /// according to this option. See the enum [Clip] for details of all possible
+  /// options and their common use cases. Defaults to [Clip.none].
   final Clip? clipBehavior;
 
   /// The [constraints] parameter defines the minimum and maximum sizes
@@ -46,10 +66,43 @@ class ModalConfig {
   /// Defaults to `Colors.black54` if not provided.
   final Color? barrierColor;
 
+  /// The [useRootNavigator] parameter ensures that the root navigator is
+  /// used to display the modal when set to `true`. This is useful in
+  /// the case that a modal needs to be displayed above all other content
+  /// but the caller is inside another [Navigator].
   final bool useRootNavigator;
+
+  /// The [routeSettings] parameter sets the [RouteSettings] of the modal.
+  /// This is particularly useful in the case that a user wants to observe
+  /// [PopupRoute]s within a [NavigatorObserver].
   final RouteSettings? routeSettings;
+
+  /// The animation controller that controls the bottom sheet's entrance and
+  /// exit animations. The BottomSheet widget will manipulate the position
+  /// of this animation, it is not just a passive observer.
   final AnimationController? transitionAnimationController;
+
+  /// The [anchorPoint] parameter is used to pick the closest sub-screen.
+  /// If the anchor point sits inside one of these sub-screens, then that
+  /// sub-screen is picked. If not, then the sub-screen with the closest edge to
+  /// the point is used.
+  ///
+  /// [Offset.zero] is the top-left corner of the available screen space. For a
+  /// vertically split dual-screen device, this is the top-left corner of the
+  /// left screen.
+  ///
+  /// When this is null, [Directionality] is used:
+  ///   * for [TextDirection.ltr], [anchorPoint] is [Offset.zero], which will
+  ///     cause the top-left sub-screen to be picked.
+  ///   * for [TextDirection.rtl], [anchorPoint] is
+  ///     `Offset(double.maxFinite, 0)`, which will cause the top-right
+  ///     sub-screen to be picked.
   final Offset? anchorPoint;
+
+  /// The [barrierLabel] parameter ensures that a semantics label is used
+  /// for the barrier if it is [dismissible]. The semantics label is read out
+  /// by accessibility tools (e.g. TalkBack on Android and VoiceOver on iOS)
+  /// when the barrier is focused.
   final String? barrierLabel;
 
   const ModalConfig({
@@ -58,7 +111,7 @@ class ModalConfig {
     this.enableDrag = false,
     this.isScrollControlled = true,
     this.useRootNavigator = false,
-    this.animationDuration = const Duration(milliseconds: 330),
+    this.sizeAnimationDuration = const Duration(milliseconds: 330),
     this.backgroundColor,
     this.elevation,
     this.shape,
@@ -76,7 +129,7 @@ class ModalConfig {
     bool? isBackButtonDismissible,
     bool? enableDrag,
     bool? isScrollControlled,
-    Duration? animationDuration,
+    Duration? sizeAnimationDuration,
     Color? backgroundColor,
     double? elevation,
     ShapeBorder? shape,
@@ -94,7 +147,7 @@ class ModalConfig {
       isBackButtonDismissible: isBackButtonDismissible ?? this.isBackButtonDismissible,
       enableDrag: enableDrag ?? this.enableDrag,
       isScrollControlled: isScrollControlled ?? this.isScrollControlled,
-      animationDuration: animationDuration ?? this.animationDuration,
+      sizeAnimationDuration: sizeAnimationDuration ?? this.sizeAnimationDuration,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       elevation: elevation ?? this.elevation,
       shape: shape ?? this.shape,
@@ -108,8 +161,4 @@ class ModalConfig {
       barrierLabel: barrierLabel ?? this.barrierLabel,
     );
   }
-}
-
-void mm(BuildContext context, WidgetBuilder builder) {
-  showModalBottomSheet(context: context, builder: builder);
 }
