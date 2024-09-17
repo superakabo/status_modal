@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ModalConfig {
+class ModalConfig with Diagnosticable {
   /// The [isDismissible] parameter allows the
   /// modal to be dismissed when user taps on the scrim.
   final bool isDismissible;
@@ -171,5 +172,76 @@ class ModalConfig {
       anchorPoint: anchorPoint ?? this.anchorPoint,
       barrierLabel: barrierLabel ?? this.barrierLabel,
     );
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll([
+      isDismissible,
+      isBackButtonDismissible,
+      enableDrag,
+      showDragHandle,
+      isScrollControlled,
+      sizeAnimationDuration,
+      backgroundColor,
+      elevation,
+      shape,
+      clipBehavior,
+      constraints,
+      barrierColor,
+      useRootNavigator,
+      routeSettings,
+      transitionAnimationController,
+      anchorPoint,
+      barrierLabel,
+    ]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is ModalConfig &&
+            runtimeType == other.runtimeType &&
+            isDismissible == other.isDismissible &&
+            isBackButtonDismissible == other.isBackButtonDismissible &&
+            enableDrag == other.enableDrag &&
+            showDragHandle == other.showDragHandle &&
+            isScrollControlled == other.isScrollControlled &&
+            sizeAnimationDuration == other.sizeAnimationDuration &&
+            backgroundColor == other.backgroundColor &&
+            elevation == other.elevation &&
+            shape == other.shape &&
+            clipBehavior == other.clipBehavior &&
+            constraints == other.constraints &&
+            barrierColor == other.barrierColor &&
+            useRootNavigator == other.useRootNavigator &&
+            routeSettings == other.routeSettings &&
+            transitionAnimationController == other.transitionAnimationController &&
+            anchorPoint == other.anchorPoint &&
+            barrierLabel == other.barrierLabel;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('isDismissible', isDismissible));
+    properties.add(DiagnosticsProperty<bool>('isBackButtonDismissible', isBackButtonDismissible));
+    properties.add(DiagnosticsProperty<bool>('enableDrag', enableDrag));
+    properties.add(DiagnosticsProperty<bool>('showDragHandle', showDragHandle, defaultValue: null));
+    properties.add(DiagnosticsProperty<bool>('isScrollControlled', isScrollControlled));
+    properties.add(IntProperty('sizeAnimationDuration', sizeAnimationDuration.inMilliseconds, unit: 'ms'));
+    properties.add(ColorProperty('backgroundColor', backgroundColor, defaultValue: null));
+    properties.add(DoubleProperty('elevation', elevation, defaultValue: null));
+    properties.add(DiagnosticsProperty<ShapeBorder>('shape', shape, defaultValue: null));
+    properties.add(EnumProperty<Clip>('clipBehavior', clipBehavior, defaultValue: null));
+    properties.add(DiagnosticsProperty<BoxConstraints>('constraints', constraints, defaultValue: null));
+    properties.add(ColorProperty('barrierColor', barrierColor, defaultValue: null));
+    properties.add(DiagnosticsProperty<bool>('useRootNavigator', useRootNavigator, defaultValue: null));
+    properties.add(DiagnosticsProperty<RouteSettings>('routeSettings', routeSettings, defaultValue: null));
+    properties.add(DiagnosticsProperty<AnimationController>(
+        'transitionAnimationController', transitionAnimationController,
+        defaultValue: null));
+    properties.add(DiagnosticsProperty<Offset>('anchorPoint', anchorPoint, defaultValue: null));
+    properties.add(StringProperty('barrierLabel', barrierLabel, defaultValue: null));
   }
 }
