@@ -114,6 +114,13 @@ class ModalConfig with Diagnosticable {
   /// when the barrier is focused.
   final String? barrierLabel;
 
+  /// Information about a piece of media (e.g., a window).
+  /// To obtain the entire current [MediaQueryData] for a given [BuildContext],
+  /// use the [MediaQuery.of] function. This can be useful if you are going to use
+  /// [copyWith] to replace the [MediaQueryData] with one with an updated property.
+  /// Read more on [MediaQueryData].
+  final MediaQueryData mediaQuery;
+
   const ModalConfig({
     this.isDismissible = false,
     this.isBackButtonDismissible = false,
@@ -132,6 +139,7 @@ class ModalConfig with Diagnosticable {
     this.transitionAnimationController,
     this.anchorPoint,
     this.barrierLabel,
+    this.mediaQuery = const MediaQueryData(),
   });
 
   ModalConfig copyWith({
@@ -152,6 +160,7 @@ class ModalConfig with Diagnosticable {
     AnimationController? transitionAnimationController,
     Offset? anchorPoint,
     String? barrierLabel,
+    MediaQueryData? mediaQuery,
   }) {
     return ModalConfig(
       isDismissible: isDismissible ?? this.isDismissible,
@@ -171,6 +180,7 @@ class ModalConfig with Diagnosticable {
       transitionAnimationController: transitionAnimationController ?? this.transitionAnimationController,
       anchorPoint: anchorPoint ?? this.anchorPoint,
       barrierLabel: barrierLabel ?? this.barrierLabel,
+      mediaQuery: mediaQuery ?? this.mediaQuery,
     );
   }
 
@@ -194,6 +204,7 @@ class ModalConfig with Diagnosticable {
       transitionAnimationController,
       anchorPoint,
       barrierLabel,
+      mediaQuery,
     ]);
   }
 
@@ -218,7 +229,8 @@ class ModalConfig with Diagnosticable {
             routeSettings == other.routeSettings &&
             transitionAnimationController == other.transitionAnimationController &&
             anchorPoint == other.anchorPoint &&
-            barrierLabel == other.barrierLabel;
+            barrierLabel == other.barrierLabel &&
+            mediaQuery == other.mediaQuery;
   }
 
   @override
@@ -243,5 +255,6 @@ class ModalConfig with Diagnosticable {
         defaultValue: null));
     properties.add(DiagnosticsProperty<Offset>('anchorPoint', anchorPoint, defaultValue: null));
     properties.add(StringProperty('barrierLabel', barrierLabel, defaultValue: null));
+    properties.add(DiagnosticsProperty<MediaQueryData>('mediaQuery', mediaQuery, defaultValue: null));
   }
 }

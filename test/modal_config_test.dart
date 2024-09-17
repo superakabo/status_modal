@@ -22,6 +22,7 @@ void main() {
     expect(config.transitionAnimationController, isNull);
     expect(config.anchorPoint, isNull);
     expect(config.barrierLabel, isNull);
+    expect(config.mediaQuery, equals(const MediaQueryData()));
   });
 
   test('test the copyWith function for ModalConfig without any modification', () {
@@ -43,6 +44,7 @@ void main() {
     expect(config.transitionAnimationController, isNull);
     expect(config.anchorPoint, isNull);
     expect(config.barrierLabel, isNull);
+    expect(config.mediaQuery, equals(const MediaQueryData()));
   });
 
   test('test the copyWith function for ModalConfig with modifications', () {
@@ -69,6 +71,7 @@ void main() {
       transitionAnimationController: animationController,
       anchorPoint: Offset.zero,
       barrierLabel: 'test barrier label',
+      mediaQuery: const MediaQueryData(size: Size.infinite),
     );
 
     expect(config.isDismissible, isTrue);
@@ -88,6 +91,7 @@ void main() {
     expect(config.transitionAnimationController, equals(animationController));
     expect(config.anchorPoint, equals(Offset.zero));
     expect(config.barrierLabel, equals('test barrier label'));
+    expect(config.mediaQuery, equals(const MediaQueryData(size: Size.infinite)));
   });
 
   test('test if multiple instances with the same configuration are identical', () {
