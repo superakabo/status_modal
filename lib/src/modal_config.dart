@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 
 class ModalConfig {
-  /// The [isDismissible] parameter specifies whether the
-  /// bottom sheet will be dismissed when user taps on the scrim.
+  /// The [isDismissible] parameter allows the
+  /// modal to be dismissed when user taps on the scrim.
   final bool isDismissible;
 
-  /// The [isBackButtonDismissible] parameter specifies
-  /// whether the modal sheet will be dismissed when user
+  /// The [isBackButtonDismissible] parameter allows
+  /// the modal to be dismissed when the user
   /// taps on the back button (software/hardware).
   final bool isBackButtonDismissible;
 
-  /// The [enableDrag] parameter specifies whether the bottom sheet
-  /// can be dragged up and down and dismissed by swiping downwards.
+  /// The [enableDrag] parameter allows the bottom sheet
+  /// to be dragged up and down and dismissed by swiping downwards.
   /// If true, the bottom sheet can be dragged up and down and dismissed
   /// by swiping downwards. This applies to the content below the drag
   /// handle, if showDragHandle is true. Defaults is true.
   final bool enableDrag;
 
+  /// The [showDragHandle] parameter specifies whether a drag handle is shown.
+  /// The drag handle appears at the top of the bottom sheet. The default color is
+  /// [ColorScheme.onSurfaceVariant] with an opacity of 0.4 and can be customized
+  /// using dragHandleColor. The default size is `Size(32,4)` and can be customized
+  /// with dragHandleSize. If null, then the value of [BottomSheetThemeData.showDragHandle]
+  /// is used. If that is also null, defaults to false.
+  final bool? showDragHandle;
+
   /// The [isScrollControlled] parameter specifies whether this is a
   /// route for a bottom sheet that will utilize [DraggableScrollableSheet].
   /// Consider setting this parameter to true if this bottom sheet has
   /// a scrollable child, such as a [ListView] or a [GridView], to make
-  /// the bottom sheet draggable. Setting this to true will also make
-  /// the modal assume the full height of the viewport (full screen).
+  /// the bottom sheet draggable. Set this to true if you want to
+  /// control the height of the bottom sheet.
   final bool isScrollControlled;
 
   /// The [sizeAnimationDuration] parameter specifies the duration to use
@@ -109,6 +117,7 @@ class ModalConfig {
     this.isDismissible = false,
     this.isBackButtonDismissible = false,
     this.enableDrag = false,
+    this.showDragHandle,
     this.isScrollControlled = true,
     this.useRootNavigator = false,
     this.sizeAnimationDuration = const Duration(milliseconds: 330),
@@ -128,6 +137,7 @@ class ModalConfig {
     bool? isDismissible,
     bool? isBackButtonDismissible,
     bool? enableDrag,
+    bool? showDragHandle,
     bool? isScrollControlled,
     Duration? sizeAnimationDuration,
     Color? backgroundColor,
@@ -146,6 +156,7 @@ class ModalConfig {
       isDismissible: isDismissible ?? this.isDismissible,
       isBackButtonDismissible: isBackButtonDismissible ?? this.isBackButtonDismissible,
       enableDrag: enableDrag ?? this.enableDrag,
+      showDragHandle: showDragHandle ?? this.showDragHandle,
       isScrollControlled: isScrollControlled ?? this.isScrollControlled,
       sizeAnimationDuration: sizeAnimationDuration ?? this.sizeAnimationDuration,
       backgroundColor: backgroundColor ?? this.backgroundColor,

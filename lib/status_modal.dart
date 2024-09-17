@@ -1,5 +1,7 @@
 library status_modal;
 
+export './src/modal_config.dart';
+
 /// A Calculator.
 class Calculator {
   /// Returns [value] plus 1.

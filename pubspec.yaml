@@ -1,5 +1,5 @@
 name: status_modal
-description: "A simple and dynamic modal widget (dialog/bottom sheet) that can be used to indicate the status of a process by updating its content."
+description: "A simple and dynamic modal (dialog/bottom sheet) that can be used to indicate the status of a process by updating its content."
 version: 0.0.1
 homepage:
 
