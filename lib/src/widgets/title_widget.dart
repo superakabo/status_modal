@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
 
+///
+/// The [TitleWidget] is a wrapper over [Text.rich()] widget.
+///
 class TitleWidget extends StatelessWidget {
   /// The text to display as a [InlineSpan].
   ///
@@ -144,6 +147,7 @@ class TitleWidget extends StatelessWidget {
     return _richText;
   }
 
+  /// Create a copy of the [TitleWidget].
   TitleWidget copyWith({
     InlineSpan? textSpan,
     TextStyle? style,
