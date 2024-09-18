@@ -1,15 +1,23 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:status_modal/status_modal.dart';
 
-import 'widgets/title_widget.dart';
+import 'widgets/modal_button.dart';
+import 'widgets/modal_loader.dart';
+import 'widgets/modal_text.dart';
 
-class ModalWidget extends StatelessWidget with Diagnosticable {
-  final TitleWidget? title;
+class ModalWidget extends StatelessWidget {
+  final ModalText? title;
+  final ModalText? message;
+  final ModalLoader? loader;
+  final ModalButton? positiveButton;
+  final ModalButton? negativeButton;
 
   const ModalWidget({
     super.key,
     this.title,
+    this.message,
+    this.loader,
+    this.positiveButton,
+    this.negativeButton,
   });
 
   // final String? title;

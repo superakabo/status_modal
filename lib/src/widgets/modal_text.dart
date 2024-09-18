@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
 
 ///
-/// The [TitleWidget] is a wrapper over [Text.rich()] widget.
+/// The [ModalText] is a wrapper over [Text.rich()] widget.
 ///
-class TitleWidget extends StatelessWidget {
+class ModalText extends StatelessWidget {
   /// The text to display as a [InlineSpan].
   ///
   /// This will be null if [data] is provided instead.
@@ -109,7 +109,7 @@ class TitleWidget extends StatelessWidget {
 
   final Text _richText;
 
-  TitleWidget({
+  ModalText({
     super.key,
     required this.textSpan,
     this.style,
@@ -147,8 +147,8 @@ class TitleWidget extends StatelessWidget {
     return _richText;
   }
 
-  /// Create a copy of the [TitleWidget].
-  TitleWidget copyWith({
+  /// Create a copy of the [ModalText].
+  ModalText copyWith({
     InlineSpan? textSpan,
     TextStyle? style,
     StrutStyle? strutStyle,
@@ -164,7 +164,7 @@ class TitleWidget extends StatelessWidget {
     TextHeightBehavior? textHeightBehavior,
     Color? selectionColor,
   }) {
-    return TitleWidget(
+    return ModalText(
       textSpan: textSpan ?? this.textSpan,
       style: style ?? this.style,
       strutStyle: strutStyle ?? this.strutStyle,

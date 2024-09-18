@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ///
-/// The [LoadingWidget] is a wrapper over [CircularProgressIndicator].
+/// The [ModalLoader] is a wrapper over [CircularProgressIndicator].
 ///
-class LoadingWidget extends StatelessWidget {
+class ModalLoader extends StatelessWidget {
   /// If non-null, the value of this progress indicator.
   ///
   /// A value of 0.0 means no progress and 1.0 means that progress is complete.
@@ -94,7 +95,9 @@ class LoadingWidget extends StatelessWidget {
   /// degrees and end at 275 degrees.
   final StrokeCap? strokeCap;
 
-  const LoadingWidget({
+  final CircularProgressIndicator _progressIndicator;
+
+  ModalLoader({
     super.key,
     this.value,
     this.color,
@@ -105,25 +108,25 @@ class LoadingWidget extends StatelessWidget {
     this.semanticsLabel,
     this.semanticsValue,
     this.backgroundColor,
-  });
+  }) : _progressIndicator = CircularProgressIndicator(
+          value: value,
+          color: color,
+          strokeCap: strokeCap,
+          valueColor: valueColor,
+          strokeAlign: strokeAlign,
+          strokeWidth: strokeWidth,
+          semanticsLabel: semanticsLabel,
+          semanticsValue: semanticsValue,
+          backgroundColor: backgroundColor,
+        );
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator(
-      value: value,
-      color: color,
-      strokeCap: strokeCap,
-      valueColor: valueColor,
-      strokeAlign: strokeAlign,
-      strokeWidth: strokeWidth,
-      semanticsLabel: semanticsLabel,
-      semanticsValue: semanticsValue,
-      backgroundColor: backgroundColor,
-    );
+    return _progressIndicator;
   }
 
-  /// Create a copy of the [LoadingWidget].
-  LoadingWidget copyWith({
+  /// Create a copy of the [ModalLoader].
+  ModalLoader copyWith({
     double? value,
     Color? color,
     StrokeCap? strokeCap,
@@ -134,7 +137,7 @@ class LoadingWidget extends StatelessWidget {
     String? semanticsValue,
     Color? backgroundColor,
   }) {
-    return LoadingWidget(
+    return ModalLoader(
       value: value ?? this.value,
       color: color ?? this.color,
       strokeCap: strokeCap ?? this.strokeCap,
@@ -145,5 +148,11 @@ class LoadingWidget extends StatelessWidget {
       semanticsValue: semanticsValue ?? this.semanticsValue,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    return _progressIndicator.debugFillProperties(properties);
   }
 }
