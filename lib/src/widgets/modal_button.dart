@@ -104,6 +104,89 @@ class ModalButton extends StatelessWidget {
     return _elevatedButton;
   }
 
+  static ButtonStyle _getButtonStyle({Color? backgroundColor, Color? foregroundColor, TextStyle? textStyle}) {
+    return ElevatedButton.styleFrom(
+      elevation: 0,
+      fixedSize: const Size.fromHeight(48),
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      textStyle: textStyle,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+    );
+  }
+
+  factory ModalButton.primary({
+    required BuildContext context,
+    required String text,
+    VoidCallback? onPressed,
+  }) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalButton(
+      style: _getButtonStyle(
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
+        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+
+  factory ModalButton.secondary({
+    required BuildContext context,
+    required String text,
+    VoidCallback? onPressed,
+  }) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalButton(
+      style: _getButtonStyle(
+        backgroundColor: theme.colorScheme.secondary,
+        foregroundColor: theme.colorScheme.onSecondary,
+        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+
+  factory ModalButton.tertiary({
+    required BuildContext context,
+    required String text,
+    VoidCallback? onPressed,
+  }) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalButton(
+      style: _getButtonStyle(
+        backgroundColor: theme.colorScheme.tertiary,
+        foregroundColor: theme.colorScheme.onTertiary,
+        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+
+  factory ModalButton.error({
+    required BuildContext context,
+    required String text,
+    VoidCallback? onPressed,
+  }) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalButton(
+      style: _getButtonStyle(
+        backgroundColor: theme.colorScheme.error,
+        foregroundColor: theme.colorScheme.onError,
+        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+
   /// Create a copy of the [ModalButton].
   ModalButton copyWith({
     VoidCallback? onPressed,

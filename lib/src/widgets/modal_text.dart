@@ -147,6 +147,26 @@ class ModalText extends StatelessWidget {
     return _richText;
   }
 
+  factory ModalText.title(BuildContext context, String text) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalText(
+      textSpan: TextSpan(text: text),
+      textAlign: TextAlign.center,
+      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+    );
+  }
+
+  factory ModalText.body(BuildContext context, String text) {
+    final ThemeData theme = Theme.of(context);
+
+    return ModalText(
+      textSpan: TextSpan(text: text),
+      textAlign: TextAlign.center,
+      style: theme.textTheme.bodyMedium,
+    );
+  }
+
   /// Create a copy of the [ModalText].
   ModalText copyWith({
     InlineSpan? textSpan,
