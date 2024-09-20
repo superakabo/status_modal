@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'modal_button.dart';
 import 'modal_layout.dart';
+import 'modal_loader.dart';
 import 'modal_text.dart';
 
 class ModalContent extends StatelessWidget {
@@ -14,16 +15,20 @@ class ModalContent extends StatelessWidget {
   final Axis? actionButtonsAxis;
   final double? actionButtonsSpacing;
   final WidgetBuilder? builder;
+  final ModalLoader? loader;
+  final double? loaderSize;
 
   const ModalContent({
     super.key,
     this.title,
     this.message,
     this.builder,
+    this.loader,
     this.actionButton,
     this.cancelButton,
     this.actionButtonsAxis,
     this.actionButtonsSpacing,
+    this.loaderSize,
   });
 
   factory ModalContent.info({
@@ -46,6 +51,20 @@ class ModalContent extends StatelessWidget {
     );
   }
 
+  factory ModalContent.loading({
+    ModalText? title,
+    ModalText? message,
+    ModalLoader? loader,
+    double? loaderSize,
+  }) {
+    return ModalContent(
+      title: title,
+      message: message,
+      loader: loader,
+      loaderSize: loaderSize,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final EdgeInsets viewPadding = MediaQuery.paddingOf(context);
@@ -53,7 +72,11 @@ class ModalContent extends StatelessWidget {
     return ModalLayout(
       title: title,
       message: message,
+      //
       builder: builder,
+      //
+      loader: loader,
+      loaderSize: loaderSize,
       //
       positiveActionButton: actionButton,
       negativeActionButton: cancelButton,
@@ -63,6 +86,7 @@ class ModalContent extends StatelessWidget {
       //
       titleMargin: (title == null) ? null : const EdgeInsets.only(top: 16, left: 16, right: 16),
       messageMargin: (message == null) ? null : const EdgeInsets.only(top: 16, left: 24, right: 24),
+      loaderMargin: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 20),
       actionButtonsMargin: EdgeInsets.only(top: 32, left: 24, right: 24, bottom: max(16, viewPadding.bottom)),
     );
   }
