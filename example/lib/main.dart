@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:status_modal/status_modal.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,10 +30,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late final info = ModalContent.info(
+    title: ModalText.title(
+      'Processing Request',
+      color: Colors.red,
+    ),
+    message: ModalText.body('Please wait...'),
+    actionButton: ModalButton.primary(
+      text: 'OK',
+      onPressed: () {},
+    ),
+    cancelButton: ModalButton.secondary(
+      text: 'Cancel',
+      onPressed: () {},
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      body: Center(child: info),
     );
   }
 }

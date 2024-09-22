@@ -2,10 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
 
+// Predefined text styles enum
+enum _TextStyle {
+  title,
+  body,
+  none;
+}
+
 ///
 /// The [ModalText] is a wrapper over [Text.rich()] widget.
 ///
-class ModalText extends StatelessWidget {
+class ModalText extends StatefulWidget {
   /// The text to display as a [InlineSpan].
   ///
   /// This will be null if [data] is provided instead.
@@ -107,9 +114,13 @@ class ModalText extends StatelessWidget {
   /// (semi-transparent grey).
   final Color? selectionColor;
 
-  final Text _richText;
+  /// The predefined text style to use.
+  final _TextStyle _textStyle;
 
-  ModalText({
+  /// Convenience text color property.
+  final Color? _textColor;
+
+  const ModalText({
     super.key,
     required this.textSpan,
     this.style,
@@ -125,52 +136,32 @@ class ModalText extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : _richText = Text.rich(
-          textSpan,
-          style: style,
-          strutStyle: strutStyle,
-          textAlign: textAlign,
-          textDirection: textDirection,
-          locale: locale,
-          softWrap: softWrap,
-          overflow: overflow,
-          textScaler: textScaler,
-          maxLines: maxLines,
-          semanticsLabel: semanticsLabel,
-          textWidthBasis: textWidthBasis,
-          textHeightBehavior: textHeightBehavior,
-          selectionColor: selectionColor,
-        );
+  })  : _textStyle = _TextStyle.none,
+        _textColor = null;
 
-  @override
-  Widget build(BuildContext context) {
-    return _richText;
-  }
+  ModalText._(String text, Color? color, _TextStyle textStyle)
+      : textSpan = TextSpan(text: text),
+        style = null,
+        strutStyle = null,
+        textAlign = TextAlign.center,
+        textDirection = null,
+        locale = null,
+        softWrap = null,
+        overflow = null,
+        textScaler = null,
+        maxLines = null,
+        semanticsLabel = null,
+        textWidthBasis = null,
+        textHeightBehavior = null,
+        selectionColor = null,
+        _textStyle = textStyle,
+        _textColor = color;
 
-  factory ModalText.title(BuildContext context, String text, {Color? color}) {
-    final ThemeData theme = Theme.of(context);
+  /// A text widget that uses a titleMedium text style.
+  factory ModalText.title(String text, {Color? color}) => ModalText._(text, color, _TextStyle.title);
 
-    return ModalText(
-      textSpan: TextSpan(text: text),
-      textAlign: TextAlign.center,
-      style: theme.textTheme.titleMedium?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: color,
-      ),
-    );
-  }
-
-  factory ModalText.body(BuildContext context, String text, {Color? color}) {
-    final ThemeData theme = Theme.of(context);
-
-    return ModalText(
-      textSpan: TextSpan(text: text),
-      textAlign: TextAlign.center,
-      style: theme.textTheme.bodyMedium?.copyWith(
-        color: color,
-      ),
-    );
-  }
+  /// A text widget that uses a bodyMedium text style.
+  factory ModalText.body(String text, {Color? color}) => ModalText._(text, color, _TextStyle.body);
 
   /// Create a copy of the [ModalText].
   ModalText copyWith({
@@ -208,8 +199,54 @@ class ModalText extends StatelessWidget {
   }
 
   @override
+  State<ModalText> createState() => _ModalTextState();
+}
+
+class _ModalTextState extends State<ModalText> {
+  Text? _richText;
+
+  @override
+  void dispose() {
+    _richText = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    late final ThemeData theme = Theme.of(context);
+
+    _richText = Text.rich(
+      widget.textSpan,
+      style: switch (widget._textStyle) {
+        _TextStyle.title => theme.textTheme.titleMedium?.copyWith(
+            color: widget._textColor,
+            fontWeight: FontWeight.bold,
+          ),
+        _TextStyle.body => theme.textTheme.bodyMedium?.copyWith(
+            color: widget._textColor,
+          ),
+        _TextStyle.none => widget.style,
+      },
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textDirection: widget.textDirection,
+      locale: widget.locale,
+      softWrap: widget.softWrap,
+      overflow: widget.overflow,
+      textScaler: widget.textScaler,
+      maxLines: widget.maxLines,
+      semanticsLabel: widget.semanticsLabel,
+      textWidthBasis: widget.textWidthBasis,
+      textHeightBehavior: widget.textHeightBehavior,
+      selectionColor: widget.selectionColor,
+    );
+
+    return _richText!;
+  }
+
+  @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    return _richText.debugFillProperties(properties);
+    return _richText?.debugFillProperties(properties);
   }
 }

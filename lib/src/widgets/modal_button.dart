@@ -1,10 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+// Predefined button styles enum.
+enum _ButtonStyle {
+  primary,
+  secondary,
+  tertiary,
+  error,
+  none;
+}
+
 ///
 /// The [ModalButton] is a wrapper over [ElevatedButton].
 ///
-class ModalButton extends StatelessWidget {
+class ModalButton extends StatefulWidget {
   /// Called when the button is tapped or otherwise activated.
   ///
   /// If this callback and [onLongPress] are null, then the button will be disabled.
@@ -70,9 +79,10 @@ class ModalButton extends StatelessWidget {
   /// {@macro flutter.material.ButtonStyleButton.iconAlignment}
   final IconAlignment iconAlignment;
 
-  final ElevatedButton _elevatedButton;
+  /// The predefined button style to use.
+  final _ButtonStyle _buttonStyle;
 
-  ModalButton({
+  const ModalButton({
     super.key,
     this.style,
     this.child,
@@ -85,107 +95,37 @@ class ModalButton extends StatelessWidget {
     this.statesController,
     this.autofocus = false,
     this.iconAlignment = IconAlignment.start,
-  }) : _elevatedButton = ElevatedButton(
-          onPressed: onPressed,
-          onLongPress: onLongPress,
-          onHover: onHover,
-          onFocusChange: onFocusChange,
-          style: style,
-          focusNode: focusNode,
-          autofocus: autofocus,
-          clipBehavior: clipBehavior,
-          statesController: statesController,
-          iconAlignment: iconAlignment,
-          child: child,
-        );
+  }) : _buttonStyle = _ButtonStyle.none;
 
-  @override
-  Widget build(BuildContext context) {
-    return _elevatedButton;
-  }
+  ModalButton._(String text, VoidCallback? onPressedEvent, _ButtonStyle buttonStyle)
+      : style = null,
+        child = Text(text),
+        onHover = null,
+        focusNode = null,
+        onPressed = onPressedEvent,
+        onLongPress = null,
+        clipBehavior = null,
+        onFocusChange = null,
+        statesController = null,
+        autofocus = false,
+        iconAlignment = IconAlignment.start,
+        _buttonStyle = buttonStyle;
 
-  static ButtonStyle _getButtonStyle({Color? backgroundColor, Color? foregroundColor, TextStyle? textStyle}) {
-    return ElevatedButton.styleFrom(
-      elevation: 0,
-      fixedSize: const Size.fromHeight(48),
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      textStyle: textStyle,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-    );
-  }
+  /// An elevated button widget that uses a primary color scheme and bodyMedium text style.
+  factory ModalButton.primary({required String text, VoidCallback? onPressed}) =>
+      ModalButton._(text, onPressed, _ButtonStyle.primary);
 
-  factory ModalButton.primary({
-    required BuildContext context,
-    required String text,
-    VoidCallback? onPressed,
-  }) {
-    final ThemeData theme = Theme.of(context);
+  /// An elevated button widget that uses a secondary color scheme and bodyMedium text style.
+  factory ModalButton.secondary({required String text, VoidCallback? onPressed}) =>
+      ModalButton._(text, onPressed, _ButtonStyle.secondary);
 
-    return ModalButton(
-      style: _getButtonStyle(
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: theme.colorScheme.onPrimary,
-        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-  }
+  /// An elevated button widget that uses a tertiary color scheme and bodyMedium text style.
+  factory ModalButton.tertiary({required String text, VoidCallback? onPressed}) =>
+      ModalButton._(text, onPressed, _ButtonStyle.tertiary);
 
-  factory ModalButton.secondary({
-    required BuildContext context,
-    required String text,
-    VoidCallback? onPressed,
-  }) {
-    final ThemeData theme = Theme.of(context);
-
-    return ModalButton(
-      style: _getButtonStyle(
-        backgroundColor: theme.colorScheme.secondary,
-        foregroundColor: theme.colorScheme.onSecondary,
-        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-  }
-
-  factory ModalButton.tertiary({
-    required BuildContext context,
-    required String text,
-    VoidCallback? onPressed,
-  }) {
-    final ThemeData theme = Theme.of(context);
-
-    return ModalButton(
-      style: _getButtonStyle(
-        backgroundColor: theme.colorScheme.tertiary,
-        foregroundColor: theme.colorScheme.onTertiary,
-        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-  }
-
-  factory ModalButton.error({
-    required BuildContext context,
-    required String text,
-    VoidCallback? onPressed,
-  }) {
-    final ThemeData theme = Theme.of(context);
-
-    return ModalButton(
-      style: _getButtonStyle(
-        backgroundColor: theme.colorScheme.error,
-        foregroundColor: theme.colorScheme.onError,
-        textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-  }
+  /// An elevated button widget that uses an error color scheme and bodyMedium text style.
+  factory ModalButton.error({required String text, VoidCallback? onPressed}) =>
+      ModalButton._(text, onPressed, _ButtonStyle.error);
 
   /// Create a copy of the [ModalButton].
   ModalButton copyWith({
@@ -217,8 +157,63 @@ class ModalButton extends StatelessWidget {
   }
 
   @override
+  State<ModalButton> createState() => _ModalButtonState();
+}
+
+class _ModalButtonState extends State<ModalButton> {
+  ElevatedButton? _button;
+
+  @override
+  void dispose() {
+    _button = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    late final ThemeData theme = Theme.of(context);
+
+    late final ButtonStyle predefinedStyles = ElevatedButton.styleFrom(
+      elevation: 0,
+      fixedSize: const Size.fromHeight(48),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      backgroundColor: switch (widget._buttonStyle) {
+        _ButtonStyle.primary => theme.colorScheme.primary,
+        _ButtonStyle.secondary => theme.colorScheme.secondary,
+        _ButtonStyle.tertiary => theme.colorScheme.tertiary,
+        _ButtonStyle.error => theme.colorScheme.error,
+        _ButtonStyle.none => null,
+      },
+      foregroundColor: switch (widget._buttonStyle) {
+        _ButtonStyle.primary => theme.colorScheme.onPrimary,
+        _ButtonStyle.secondary => theme.colorScheme.onSecondary,
+        _ButtonStyle.tertiary => theme.colorScheme.onTertiary,
+        _ButtonStyle.error => theme.colorScheme.onError,
+        _ButtonStyle.none => null,
+      },
+      textStyle: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+    );
+
+    _button = ElevatedButton(
+      onPressed: widget.onPressed,
+      onLongPress: widget.onLongPress,
+      onHover: widget.onHover,
+      onFocusChange: widget.onFocusChange,
+      style: widget.style ?? predefinedStyles,
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
+      clipBehavior: widget.clipBehavior,
+      statesController: widget.statesController,
+      iconAlignment: widget.iconAlignment,
+      child: widget.child,
+    );
+
+    return _button!;
+  }
+
+  @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    return _elevatedButton.debugFillProperties(properties);
+    return _button?.debugFillProperties(properties);
   }
 }

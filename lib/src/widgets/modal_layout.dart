@@ -40,35 +40,40 @@ class ModalLayout extends StatelessWidget {
     this.actionButtonsMargin = EdgeInsets.zero,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    // Create a gap between the positive and negative action buttons.
-    final Widget actionButtonsSpacer = switch (actionButtonsAxis!) {
-      Axis.horizontal => Padding(padding: EdgeInsets.symmetric(horizontal: actionButtonsSpacing!)),
-      Axis.vertical => Padding(padding: EdgeInsets.symmetric(vertical: actionButtonsSpacing!)),
-    };
+  Widget? get _actionButtons {
+    // Create a list of non-null actions button out of the positive and negative buttons.
+    List<Widget> buttons = [positiveActionButton, negativeActionButton].whereType<Widget>().toList();
 
-    // Create a list of actions button out of the positive and negative buttons.
-    final List<Widget> actionButtons = switch (actionButtonsAxis!) {
-      Axis.horizontal => [
-          if (positiveActionButton != null) Expanded(child: positiveActionButton!),
-          if (negativeActionButton != null) Expanded(child: negativeActionButton!),
-        ],
-      Axis.vertical => [
-          if (positiveActionButton != null) positiveActionButton!,
-          if (negativeActionButton != null) negativeActionButton!,
-        ],
-    };
-
-    // TODO: Remove this line and use the new spacing property
-    // to separate the actions buttons when it is made available
-    // in the stable release.
-    //
-    // Insert the gap widget between the action buttons.
-    if (actionButtons.length == 2) {
-      actionButtons.insert(1, actionButtonsSpacer);
+    if (buttons.isEmpty) {
+      return null;
     }
 
+    // Insert the gap widget between the action buttons.
+    if (buttons.length == 2) {
+      // Create a gap between the positive and negative action buttons.
+      final Widget buttonSpacer = switch (actionButtonsAxis!) {
+        Axis.horizontal => Padding(padding: EdgeInsets.symmetric(horizontal: actionButtonsSpacing!)),
+        Axis.vertical => Padding(padding: EdgeInsets.symmetric(vertical: actionButtonsSpacing!)),
+      };
+
+      buttons.insert(1, buttonSpacer);
+    }
+
+    return switch (actionButtonsAxis!) {
+      Axis.horizontal => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: buttons.map((e) => Expanded(child: e)).toList(),
+        ),
+      Axis.vertical => Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: buttons.toList(),
+        ),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -92,22 +97,11 @@ class ModalLayout extends StatelessWidget {
         if (builder != null) builder!(context),
 
         // Action buttons row or column widget.
-        if (actionButtons.isNotEmpty) ...[
+        if (_actionButtons != null)
           Padding(
             padding: actionButtonsMargin!,
-            child: switch (actionButtonsAxis!) {
-              Axis.vertical => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: actionButtons,
-                ),
-              Axis.horizontal => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: actionButtons,
-                ),
-            },
+            child: _actionButtons,
           ),
-        ],
       ],
     );
   }
