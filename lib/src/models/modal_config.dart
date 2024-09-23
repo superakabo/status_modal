@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import 'models/bottom_sheet_config.dart';
-import 'models/dialog_config.dart';
+import 'bottom_sheet_config.dart';
+import 'dialog_config.dart';
 
 class ModalConfig with Diagnosticable {
   final BottomSheetConfig? bottomSheetConfig;
