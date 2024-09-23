@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Predefined button styles enum.
+/// Predefined button styles enum.
 enum _ButtonStyle {
   primary,
   secondary,
@@ -112,20 +112,24 @@ class ModalButton extends StatefulWidget {
         _buttonStyle = buttonStyle;
 
   /// An elevated button widget that uses a primary color scheme and bodyMedium text style.
-  factory ModalButton.primary({required String text, VoidCallback? onPressed}) =>
-      ModalButton._(text, onPressed, _ButtonStyle.primary);
+  factory ModalButton.primary({required String text, VoidCallback? onPressed}) {
+    return ModalButton._(text, onPressed, _ButtonStyle.primary);
+  }
 
   /// An elevated button widget that uses a secondary color scheme and bodyMedium text style.
-  factory ModalButton.secondary({required String text, VoidCallback? onPressed}) =>
-      ModalButton._(text, onPressed, _ButtonStyle.secondary);
+  factory ModalButton.secondary({required String text, VoidCallback? onPressed}) {
+    return ModalButton._(text, onPressed, _ButtonStyle.secondary);
+  }
 
   /// An elevated button widget that uses a tertiary color scheme and bodyMedium text style.
-  factory ModalButton.tertiary({required String text, VoidCallback? onPressed}) =>
-      ModalButton._(text, onPressed, _ButtonStyle.tertiary);
+  factory ModalButton.tertiary({required String text, VoidCallback? onPressed}) {
+    return ModalButton._(text, onPressed, _ButtonStyle.tertiary);
+  }
 
   /// An elevated button widget that uses an error color scheme and bodyMedium text style.
-  factory ModalButton.error({required String text, VoidCallback? onPressed}) =>
-      ModalButton._(text, onPressed, _ButtonStyle.error);
+  factory ModalButton.error({required String text, VoidCallback? onPressed}) {
+    return ModalButton._(text, onPressed, _ButtonStyle.error);
+  }
 
   /// Create a copy of the [ModalButton].
   ModalButton copyWith({

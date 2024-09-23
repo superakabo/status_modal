@@ -4,10 +4,8 @@ import 'modal_button.dart';
 import 'modal_loader.dart';
 import 'modal_text.dart';
 
-///
 /// The structure of the modal bottom sheet or dialog
 /// without any configuration.
-///
 class ModalLayout extends StatelessWidget {
   final ModalText? title;
   final ModalText? message;

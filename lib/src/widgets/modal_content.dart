@@ -17,6 +17,10 @@ class ModalContent extends StatelessWidget {
   final WidgetBuilder? builder;
   final ModalLoader? loader;
   final double? loaderSize;
+  final EdgeInsetsGeometry? titleMargin;
+  final EdgeInsetsGeometry? messageMargin;
+  final EdgeInsetsGeometry? loaderMargin;
+  final EdgeInsetsGeometry? actionButtonsMargin;
 
   const ModalContent({
     super.key,
@@ -29,6 +33,10 @@ class ModalContent extends StatelessWidget {
     this.actionButtonsAxis,
     this.actionButtonsSpacing,
     this.loaderSize,
+    this.titleMargin,
+    this.messageMargin,
+    this.loaderMargin,
+    this.actionButtonsMargin,
   });
 
   factory ModalContent.info({
@@ -71,23 +79,24 @@ class ModalContent extends StatelessWidget {
 
     return ModalLayout(
       title: title,
+      titleMargin: titleMargin ?? const EdgeInsets.only(top: 16, left: 16, right: 16),
+      //
       message: message,
+      messageMargin: messageMargin ?? const EdgeInsets.only(top: 16, left: 24, right: 24),
       //
       builder: builder,
       //
       loader: loader,
       loaderSize: loaderSize,
+      loaderMargin: loaderMargin ?? const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 20),
       //
       positiveActionButton: actionButton,
       negativeActionButton: cancelButton,
       //
       actionButtonsAxis: actionButtonsAxis,
       actionButtonsSpacing: actionButtonsSpacing,
-      //
-      titleMargin: (title == null) ? null : const EdgeInsets.only(top: 16, left: 16, right: 16),
-      messageMargin: (message == null) ? null : const EdgeInsets.only(top: 16, left: 24, right: 24),
-      loaderMargin: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 20),
-      actionButtonsMargin: EdgeInsets.only(top: 32, left: 24, right: 24, bottom: max(16, viewPadding.bottom)),
+      actionButtonsMargin:
+          actionButtonsMargin ?? EdgeInsets.only(top: 32, left: 24, right: 24, bottom: max(16, viewPadding.bottom)),
     );
   }
 }

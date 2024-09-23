@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show TextHeightBehavior;
 
-// Predefined text styles enum
+/// Predefined text styles enum
 enum _TextStyle {
   title,
   body,
@@ -158,10 +158,14 @@ class ModalText extends StatefulWidget {
         _textColor = color;
 
   /// A text widget that uses a titleMedium text style.
-  factory ModalText.title(String text, {Color? color}) => ModalText._(text, color, _TextStyle.title);
+  factory ModalText.title(String text, {Color? color}) {
+    return ModalText._(text, color, _TextStyle.title);
+  }
 
   /// A text widget that uses a bodyMedium text style.
-  factory ModalText.body(String text, {Color? color}) => ModalText._(text, color, _TextStyle.body);
+  factory ModalText.body(String text, {Color? color}) {
+    return ModalText._(text, color, _TextStyle.body);
+  }
 
   /// Create a copy of the [ModalText].
   ModalText copyWith({
